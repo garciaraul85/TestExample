@@ -2,13 +2,14 @@ package com.android.testcode.features.ui.register;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.android.testcode.injection.data.DataManager;
+import com.android.testcode.data.DataManager;
+import com.android.testcode.data.dao.UserDataSource;
 
 public class RegisterViewModel extends ViewModel {
-    private DataManager dataManager;
+    private UserDataSource userDataSource;
 
 
-    public RegisterViewModel(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public RegisterViewModel(UserDataSource userDataSource) {
+        this.userDataSource = userDataSource;
     }
 }

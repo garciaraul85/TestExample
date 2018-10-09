@@ -1,25 +1,25 @@
-package com.android.testcode.injection.data;
+package com.android.testcode.data;
 
 import android.annotation.SuppressLint;
 
-import com.android.testcode.injection.data.model.User;
-import com.google.gson.Gson;
+import com.android.testcode.data.dao.UserDAO;
+import com.android.testcode.data.model.User;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.schedulers.Schedulers;
-
 @Singleton
 public class DataManager {
 
 //    private AngelService angelService;
+//    private AppDatabase appDatabase;
+    private UserDAO userDAO;
 
     @Inject
-    public DataManager(/*AngelService angelService*/) {
-//        this.angelService = angelService;
+    public DataManager(/*UserDAO userDAO*/) {
+        this.userDAO = userDAO;
     }
 
     @SuppressLint("CheckResult")

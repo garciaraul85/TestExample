@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.android.testcode.data.AppDatabase;
 import com.android.testcode.injection.ApplicationContext;
 import com.android.testcode.util.PreferenceHelper;
 
@@ -19,6 +20,8 @@ import static com.android.testcode.util.PreferenceHelper.PREF_FILE_NAME;
 @Module(includes = {ApiModule.class})
 public class AppModule {
     private final Application application;
+
+//    private AppDatabase appDatabase;
 
     public AppModule(Application application) {
         this.application = application;
@@ -40,6 +43,13 @@ public class AppModule {
     SharedPreferences provideSharedPreference(@ApplicationContext Context context) {
         return context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
     }
+
+//    @Provides
+//    @ApplicationContext
+//    AppDatabase provideAppDataBase(@ApplicationContext Context context) {
+//        appDatabase =  AppDatabase.getAppDatabase(context);
+//        return appDatabase;
+//    }
 
     @Provides
     @Singleton

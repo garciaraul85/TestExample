@@ -40,6 +40,10 @@ dependencies {
     // alternately - if using Java8, use the following instead of compiler
     implementation "android.arch.lifecycle:common-java8:1.1.1"
 
+    // Room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1" // use kapt for Kotlin
+
     // Dagger
     implementation 'com.google.dagger:dagger-android:2.15'
     implementation 'com.google.dagger:dagger-android-support:2.15'
@@ -47,6 +51,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.15'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
 
+    // RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
 
