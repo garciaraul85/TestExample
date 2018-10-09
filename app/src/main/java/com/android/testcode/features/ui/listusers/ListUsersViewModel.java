@@ -33,6 +33,11 @@ public class ListUsersViewModel extends ViewModel {
         );
     }
 
+
+    public MutableLiveData<List<User>> getUsersResponseLiveData() {
+        return usersResponseLiveData;
+    }
+
     @Override
     protected void onCleared() {
         disposables.clear();
