@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.android.testcode.data.DataManager;
 import com.android.testcode.data.dao.UserDataSource;
 import com.android.testcode.data.model.User;
 
@@ -14,23 +13,20 @@ import java.util.regex.Pattern;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 
 public class RegisterViewModel extends ViewModel {
     private static final String TAG = "RegisterVM";
     private UserDataSource userDataSource;
 
-    private final MutableLiveData<String> responseLiveData = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> responseLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> userNameResponseLiveData = new MutableLiveData<>();
     private final MutableLiveData<String> passwordResponseLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> userNameErrorResponseLiveData = new MutableLiveData<>();
     private final MutableLiveData<Boolean> passwordErrorResponseLiveData = new MutableLiveData<>();
-    private final MutableLiveData<List<User>> usersResponseLiveData = new MutableLiveData<>();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -40,28 +36,6 @@ public class RegisterViewModel extends ViewModel {
 
     public RegisterViewModel(UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
-    }
-
-    public void loadGreeting() {
-        disposables.add(
-                userDataSource.getGreeting()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        responseLiveData::setValue
-                )
-        );
-    }
-
-    public void loadUsers() {
-        disposables.add(
-                userDataSource.findAll()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                usersResponseLiveData::setValue
-                        )
-        );
     }
 
     public void registerUser(String userName, String password) {
@@ -92,8 +66,7 @@ public class RegisterViewModel extends ViewModel {
 
             @Override
             public void onComplete() {
-                Log.d(TAG, "onComplete: ");
-                loadUsers();
+                responseLiveData.postValue(true);
             }
 
             @Override
@@ -111,7 +84,7 @@ public class RegisterViewModel extends ViewModel {
         return password.length() > 5;
     }
 
-    public MutableLiveData<String> getResponseLiveData() {
+    public MutableLiveData<Boolean> getResponseLiveData() {
         return responseLiveData;
     }
 
@@ -129,10 +102,6 @@ public class RegisterViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getPasswordErrorResponseLiveData() {
         return passwordErrorResponseLiveData;
-    }
-
-    public MutableLiveData<List<User>> getUsersResponseLiveData() {
-        return usersResponseLiveData;
     }
 
     @Override

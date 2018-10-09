@@ -2,19 +2,18 @@ package com.android.testcode.features;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
-import com.android.testcode.MVVMApplication;
 import com.android.testcode.R;
 import com.android.testcode.features.ui.register.RegisterViewModel;
 import com.android.testcode.injection.component.DaggerAppComponent;
-import com.android.testcode.injection.module.ActivityModule;
 import com.android.testcode.injection.module.AppModule;
 import com.android.testcode.injection.module.RoomModule;
 import com.android.testcode.util.ViewModelFactory;
@@ -64,8 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
             passwordWrapper.setError(response);
         });
 
-        registerViewModel.loadGreeting();
-
         registerBtn.setOnClickListener(v -> {
             hideKeyboard();
 
@@ -74,8 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
             registerViewModel.registerUser(username, password);
         });
 
-        registerViewModel.getUsersResponseLiveData().observe(this, response -> {
-            Log.d(TAG, "onCreate: " + response.size());
+        registerViewModel.getResponseLiveData().observe(this, response -> {
+            if (response) {
+                Intent myIntent = new Intent(this, ListUsersActivity.class);
+                startActivity(myIntent);
+            }
         });
     }
 
