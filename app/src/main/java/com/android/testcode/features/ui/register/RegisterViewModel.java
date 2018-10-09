@@ -2,12 +2,10 @@ package com.android.testcode.features.ui.register;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.android.testcode.data.dao.UserDataSource;
 import com.android.testcode.data.model.User;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,8 +29,14 @@ public class RegisterViewModel extends ViewModel {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-    private Matcher matcher;
+    private static final String PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-zA-Z]).{5,12}$";
+    private static final String CHARACTER_PATTERN = "(\\w{2,})\\1";
+    private Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
+    private Matcher emailPatcher;
+    private Pattern passwordPattern = Pattern.compile(PASSWORD_PATTERN);
+    private Matcher passwordPatcher;
+    private Pattern characterPattern = Pattern.compile(CHARACTER_PATTERN);
+    private Matcher characterPatcher;
 
     public RegisterViewModel(UserDataSource userDataSource) {
         this.userDataSource = userDataSource;
@@ -76,12 +80,14 @@ public class RegisterViewModel extends ViewModel {
     }
 
     private boolean validateEmail(String email) {
-        matcher = pattern.matcher(email);
-        return matcher.matches();
+        emailPatcher = emailPattern.matcher(email);
+        return emailPatcher.matches();
     }
 
     private boolean validatePassword(String password) {
-        return password.length() > 5;
+        passwordPatcher = passwordPattern.matcher(password);
+        characterPatcher = characterPattern.matcher(password);
+        return passwordPatcher.matches() && (!characterPatcher.matches());
     }
 
     public MutableLiveData<Boolean> getResponseLiveData() {
