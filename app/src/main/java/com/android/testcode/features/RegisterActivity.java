@@ -29,6 +29,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
         inject();
+
+        registerViewModel.getResponseLiveData().observe(this, response -> {
+            Log.d(TAG, "onCreate: " + response);
+        });
+
+        registerViewModel.loadGreeting();
     }
 
     private void inject() {

@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
+
 public class UserDataSource implements UserRepository {
 
     private static final String TAG = "UserDataSource";
@@ -31,6 +33,10 @@ public class UserDataSource implements UserRepository {
     @Override
     public long insert(User user) {
         return userDao.insertUser(user);
+    }
+
+    public Single<String> getGreeting() {
+        return Single.just("Hello from CommonGreetingRepository");
     }
 
 }
