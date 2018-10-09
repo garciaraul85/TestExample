@@ -8,10 +8,10 @@ import android.util.Log;
 import com.android.testcode.MVVMApplication;
 import com.android.testcode.R;
 import com.android.testcode.features.ui.register.RegisterViewModel;
-import com.android.testcode.injection.component.ActivityComponent;
-import com.android.testcode.injection.component.ConfigPersistentComponent;
-import com.android.testcode.injection.component.DaggerConfigPersistentComponent;
+import com.android.testcode.injection.component.DaggerAppComponent;
 import com.android.testcode.injection.module.ActivityModule;
+import com.android.testcode.injection.module.AppModule;
+import com.android.testcode.injection.module.RoomModule;
 import com.android.testcode.util.ViewModelFactory;
 
 import javax.inject.Inject;
@@ -32,11 +32,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void inject() {
-        ConfigPersistentComponent configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                .appComponent(MVVMApplication.get(this).getComponent())
-                .build();
-        ActivityComponent activityComponent = configPersistentComponent.activityComponent(new ActivityModule(this));
-        activityComponent.inject(this);
+        DaggerAppComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .roomModule(new RoomModule(getApplication()))
+                .build()
+                .inject(this);
 
         registerViewModel = ViewModelProviders.of(this, videoViewModelFactory).get(RegisterViewModel.class);
 

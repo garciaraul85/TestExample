@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import com.android.testcode.injection.component.AppComponent;
 import com.android.testcode.injection.component.DaggerAppComponent;
 import com.android.testcode.injection.module.AppModule;
-import com.android.testcode.injection.module.NetworkModule;
 
 import static com.android.testcode.util.PreferenceHelper.PREF_FILE_NAME;
 
@@ -26,7 +25,6 @@ public class MVVMApplication extends Application {
 
         if (appComponent == null) {
             appComponent = DaggerAppComponent.builder()
-                    .networkModule(new NetworkModule(this, apiUrl))
                     .appModule(new AppModule(this))
                     .build();
         }
