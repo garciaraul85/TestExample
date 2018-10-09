@@ -9,12 +9,14 @@ import com.android.testcode.data.model.User;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface UserDAO {
 
     @Insert
-    long insertUser(User user);
+    void insertUser(User user);
 
     @Query("SELECT * FROM User")
-    LiveData<List<User>> getAllUsers();
+    Flowable<List<User>> getAllUsers();
 }

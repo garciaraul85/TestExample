@@ -1,6 +1,5 @@
 package com.android.testcode.data.dao;
 
-import android.arch.lifecycle.LiveData;
 import android.util.Log;
 
 import com.android.testcode.data.model.User;
@@ -9,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class UserDataSource implements UserRepository {
@@ -26,13 +26,13 @@ public class UserDataSource implements UserRepository {
     }
 
     @Override
-    public LiveData<List<User>> findAll() {
+    public Flowable<List<User>> findAll() {
         return userDao.getAllUsers();
     }
 
     @Override
-    public long insert(User user) {
-        return userDao.insertUser(user);
+    public void insert(User user) {
+        userDao.insertUser(user);
     }
 
     public Single<String> getGreeting() {
