@@ -1,12 +1,11 @@
 package com.android.testcode.features;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.testcode.R;
@@ -15,11 +14,17 @@ import com.android.testcode.features.service.MyResultReceiver;
 
 import java.lang.ref.WeakReference;
 
+import static com.android.testcode.features.service.MyIntentService.ACTION_BAZ;
+import static com.android.testcode.features.service.MyIntentService.EXTRA_PARAM1;
+import static com.android.testcode.features.service.MyIntentService.EXTRA_PARAM2;
+import static com.android.testcode.features.service.MyIntentService.RESULT_RECEIVER;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-    TextView label;
-    Button button;
+    private TextView label;
+    private EditText valAlpha;
+    private EditText valBeta;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         label = findViewById(R.id.label);
         button = findViewById(R.id.button);
+        valAlpha = findViewById(R.id.alpha);
+        valBeta = findViewById(R.id.beta);
 
         button.setOnClickListener(view -> {
             doBaz();
@@ -35,7 +42,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doBaz() {
-        MyIntentService.startServiceForBaz(this, "1", "1", new MyResultReceiverResult(this));
+        MyResultReceiver resultReceiver = new MyResultReceiver(new Handler(getMainLooper()));
+        resultReceiver.setReceiver(new MyResultReceiverResult(this));
+
+        Intent intent = new Intent(getApplicationContext(), MyIntentService.class);
+        intent.setAction(ACTION_BAZ);
+        intent.putExtra(EXTRA_PARAM1, valAlpha.getText().toString());
+        intent.putExtra(EXTRA_PARAM2, valBeta.getText().toString());
+        intent.putExtra(RESULT_RECEIVER, resultReceiver);
+        startService(intent);
+
+//        MyIntentService.startServiceForBaz(this, "1", "1", new MyResultReceiverResult(this));
     }
 
     private static class MyResultReceiverResult implements MyResultReceiver.ResultReceiverCallBack<String> {

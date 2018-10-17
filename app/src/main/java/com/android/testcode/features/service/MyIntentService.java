@@ -17,14 +17,13 @@ import android.os.ResultReceiver;
 public class MyIntentService extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_BAZ = "com.android.testcode.features.service.action.BAZ";
+    public static final String ACTION_BAZ = "com.android.testcode.features.service.action.BAZ";
 
     // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.android.testcode.features.service.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.android.testcode.features.service.extra.PARAM2";
+    public static final String EXTRA_PARAM1 = "com.android.testcode.features.service.extra.PARAM1";
+    public static final String EXTRA_PARAM2 = "com.android.testcode.features.service.extra.PARAM2";
 
-
-    private static final String RESULT_RECEIVER = "RESULT_RECEIVER";
+    public static final String RESULT_RECEIVER = "RESULT_RECEIVER";
 
     public MyIntentService() {
         super("MyIntentService");
