@@ -66,17 +66,4 @@ public class MyIntentService extends IntentService {
         }
     }
 
-    public static void startServiceForBaz(Context context, String param1, String param2, MyResultReceiver.ResultReceiverCallBack resultReceiverCallBack) {
-        MyResultReceiver resultReceiver = new MyResultReceiver(new Handler(context.getMainLooper()));
-        resultReceiver.setReceiver(resultReceiverCallBack);
-
-        Intent intent = new Intent(context, MyIntentService.class);
-        intent.setAction(ACTION_BAZ);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
-        intent.putExtra(RESULT_RECEIVER, resultReceiver);
-        context.startService(intent);
-
-    }
-
 }

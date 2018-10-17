@@ -32,8 +32,8 @@ public class MyResultReceiver<T> extends ResultReceiver {
     }
 
     public interface  ResultReceiverCallBack<T> {
-        public void onSuccess(T data);
-        public void onError(Exception exception);
+        void onSuccess(T data);
+        void onError(Exception exception);
     }
 
 }
